@@ -20,7 +20,7 @@ cvmfs_localproxy_http_ports:
 
 cvmfs_stratum1_apache_port: 8008
 cvmfs_stratum1_cache_mem: 128 # MB
-# Automatically configure a squid on startum1.
+# Automatically configure a squid on stratum1.
 cvmfs_stratum1_squid: false
 
 # Stratum 1 snapshot cron job timing, hash keys correspond to the cron module options:
