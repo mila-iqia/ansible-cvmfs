@@ -28,7 +28,6 @@
   ansible.builtin.include_tasks: squid.yml
   vars:
     _cvmfs_squid_conf_src: "{{ cvmfs_squid_conf_src | default('stratum1_squid.conf.j2') }}"
-  when: cvmfs_stratum1_squid
 
 - name: Include firewall tasks
   ansible.builtin.include_tasks: firewall.yml
