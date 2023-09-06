@@ -15,7 +15,7 @@ cvmfs_packages:
     - cvmfs
   stratum1:
     - apache2
-    - "{{ 'libapache2-mod-wsgi-py3' if ansible_distribution_release in ('bookworm', 'jammy','bullseye') else 'libapache2-mod-wsgi' }}"
+    - "{{ 'libapache2-mod-wsgi' if ansible_distribution_release in ('buster', 'focal') else 'libapache2-mod-wsgi-py3' }}"
     - squid
     - cvmfs-server
     - cvmfs-config-default
