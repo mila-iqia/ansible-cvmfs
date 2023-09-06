@@ -8,6 +8,11 @@
 - name: Include key setup tasks
   ansible.builtin.include_tasks: keys.yml
 
+- name: Enable the Apache2 module wsgi
+  community.general.apache2_module:
+    state: present
+    name: wsgi
+
 - name: Change Apache listen port
   ansible.builtin.lineinfile:
     dest: "{{ cvmfs_apache_conf_file }}"
