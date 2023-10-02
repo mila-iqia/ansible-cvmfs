@@ -15,3 +15,20 @@
     proto: tcp
   with_items: "{{ _cvmfs_http_ports }}"
   when: ansible_os_family == "Debian"
+
+- name: Ensure gateway is not firewalled (firewalld)
+  ansible.posix.firewalld:
+    port: "{{ item }}/tcp"
+    state: enabled
+    permanent: true
+    immediate: true
+  with_items: "{{ _cvmfs_gateway_ports }}"
+  when: ansible_os_family == "RedHat"
+
+- name: Ensure gateway is not firewalled (ufw)
+  community.general.system.ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  with_items: "{{ _cvmfs_gateway_ports }}"
+  when: ansible_os_family == "Debian"
