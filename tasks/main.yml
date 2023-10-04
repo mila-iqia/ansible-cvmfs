@@ -40,8 +40,4 @@
 
 - name: Include publisher Tasks
   ansible.builtin.include_tasks: publisher.yml
-  when: "cvmfs_role == 'publisher'"
-
-- name: Include gateway Tasks
-  ansible.builtin.include_tasks: gateway.yml
-  when: "cvmfs_role == 'gateway'"
+  when: "'cvmfspublishers' in group_names or cvmfs_role == 'publisher'"

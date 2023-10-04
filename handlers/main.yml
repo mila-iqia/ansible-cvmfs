@@ -21,7 +21,3 @@
     name: "{{ cvmfs_apache_service_name }}"
     state: reloaded
 
-- name: Restart gateway service
-  ansible.builtin.service:
-    name: cvmfs-gateway
-    state: restarted
