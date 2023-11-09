@@ -134,7 +134,6 @@ variable | type | description
 `cvmfs_repositories` | list of dicts | CVMFS repository configurations, to create publisher hosts.
 `cvmfs_certs` | list of dicts | The repository’s public key (encoded as an X.509 certificate).
 `cvmfs_gateway_api` | list of dicts | The gateway API key.
-`cvmfs_squid_conf_src` | path | Path to template Squid configuration file (for Stratum 1 and local proxy servers). Defaults are in the role `templates/` directory.
 
 
 [defaults]: https://github.com/galaxyproject/ansible-cvmfs/blob/master/defaults/main.yml
