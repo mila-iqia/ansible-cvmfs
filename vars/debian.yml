@@ -23,3 +23,5 @@ cvmfs_packages:
     - squid
   client:
     - cvmfs
+  gateway:
+    - cvmfs-gateway
