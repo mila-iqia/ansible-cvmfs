@@ -29,7 +29,7 @@
     owner: "{{ item.owner | default('root') }}"
     group: root
     mode: "0644"
-  loop: "{{ cvmfs_repositories_api }}"
+  loop: "{{ cvmfs_gateway_api }}"
 
 - name: Install CernVM-FS keys
   ansible.builtin.copy:
@@ -56,4 +56,3 @@
   args:
     creates: /etc/cvmfs/repositories.d/{{ item.repository }}
   loop: "{{ cvmfs_repositories }}"
-  register: __cvmfs_add_repository_publisher
