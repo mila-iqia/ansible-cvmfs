@@ -24,6 +24,5 @@ cvmfs_packages:
   client:
     - cvmfs
   publisher:
-    - apache2
     - cvmfs-server
     - cvmfs

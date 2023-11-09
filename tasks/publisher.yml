@@ -5,9 +5,6 @@
     _cvmfs_role: publisher
     _cvmfs_upgrade: "{{ cvmfs_upgrade_server }}"
 
-- name: Include Apache tasks
-  ansible.builtin.include_tasks: apache.yml
-
 - name: Create a directory cvmfs_keys
   ansible.builtin.file:
     path: /tmp/keys
