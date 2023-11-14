@@ -127,7 +127,7 @@ variable | type | description
 `cvmfs_union_fs` | string | Union filesystem type (`overlayfs` or `aufs`) for new repositories on Stratum 0 servers.
 `cvmfs_numfiles` | integer | Set the maximum number of open files in `/etc/security/limits.conf`. Useful with the `CVMFS_NFILES` client option on Stratum 0 servers.
 
-## Publisher and Gateway variables
+## Publisher variables
 
 variable | type | description
 --- | --- | ---
