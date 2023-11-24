@@ -7,14 +7,14 @@
 
 - name: Create a directory cvmfs_keys
   ansible.builtin.file:
-    path: /tmp/keys
+    path: /var/tmp/keys
     state: directory
     mode: '0755'
 
 - name: Copy certificate key on publisher 
   ansible.builtin.copy:
     content: "{{ item.crt }}"
-    dest: "{{ item.path | default('/tmp/keys') }}"
+    dest: /var/tmp/keys
     owner: "{{ item.owner | default('root') }}"
     group: root
     mode: "0400"
@@ -25,7 +25,7 @@
 - name: Create the API key filesystem
   ansible.builtin.template:
     src: api-key.gw.j2
-    dest: "{{ item.key_dir | default('/tmp/keys') }}/{{ item.repository }}.gw"
+    dest: "{{ item.key_dir | default('/var/tmp/keys') }}/{{ item.repository }}.gw"
     owner: "{{ item.owner | default('root') }}"
     group: root
     mode: "0644"
