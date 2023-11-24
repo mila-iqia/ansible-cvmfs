@@ -127,6 +127,15 @@ variable | type | description
 `cvmfs_union_fs` | string | Union filesystem type (`overlayfs` or `aufs`) for new repositories on Stratum 0 servers.
 `cvmfs_numfiles` | integer | Set the maximum number of open files in `/etc/security/limits.conf`. Useful with the `CVMFS_NFILES` client option on Stratum 0 servers.
 
+## Publisher variables
+
+variable | type | description
+--- | --- | ---
+`cvmfs_repositories` | list of dicts | CVMFS repository configurations, to create publisher hosts.
+`cvmfs_certs` | list of dicts | The repository’s public key (encoded as an X.509 certificate).
+`cvmfs_gateway_api` | list of dicts | The gateway API key.
+
+
 [defaults]: https://github.com/galaxyproject/ansible-cvmfs/blob/master/defaults/main.yml
 [cvmfs-config-repo]: https://cvmfs.readthedocs.io/en/stable/cpt-configure.html#the-config-repository
 [preload]: http://cvmfs.readthedocs.io/en/stable/cpt-hpc.html
