@@ -14,7 +14,7 @@
 - name: Copy certificate key on publisher 
   ansible.builtin.copy:
     content: "{{ item.crt }}"
-    dest: "{{ item.path }}"
+    dest: /var/tmp/keys/mycert.crt
     owner: "{{ item.owner | default('root') }}"
     group: root
     mode: "0400"
