@@ -5,23 +5,14 @@
     _cvmfs_role: gateway
     _cvmfs_upgrade: "{{ cvmfs_upgrade_server }}"
 
-
-# The template or copy (using the src parameter) modules would work well here,
-# but unfortunately they do not support the state parameter: https://github.com/ansible/ansible/issues/29781
-# So, a combination of template and file is used instead. In fact, they work well together for the following reason.
-# We require 'force: no' so that the API keys are only generated once, when they don't already exist.
-# A limitation of this is that if the file properties change (i.e. chmod) they won't get corrected.
-# So, using the file module after the template module addresses this limitation, and also correctly applies 
-# negative configuration via the state parameter according to the gateway variable.
-
 - name: Create gateway API keys for repository publishing access (stratum 0)
   template:
-    src: repokey.gw.j2
-    dest: "/etc/cvmfs/keys/{{ item.key }}.gw"
+    src: repos.json.j2
+    dest: "/etc/cvmfs/gateway/repo.json"
     force: no
     owner: root
     group: root
-    mode: '400'
+    mode: '644'
   vars:
     cvmfs_repo_name: "{{ item.key }}"
     cvmfs_gateway_key: "{{ lookup('password', '/dev/null chars=ascii_letters,digits') }}" 
