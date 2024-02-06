@@ -1,0 +1,58 @@
+---
+- name: Include initial OS-specific tasks
+  ansible.builtin.include_tasks: init_{{ ansible_os_family | lower }}.yml
+  vars:
+    _cvmfs_role: publisher
+    _cvmfs_upgrade: "{{ cvmfs_upgrade_server }}"
+
+- name: Create a directory cvmfs_keys
+  ansible.builtin.file:
+    path: /var/tmp/keys
+    state: directory
+    mode: '0755'
+
+- name: Copy certificate key on publisher 
+  ansible.builtin.copy:
+    content: "{{ item.crt }}"
+    dest: /var/tmp/keys/mycert.crt
+    owner: "{{ item.owner | default('root') }}"
+    group: root
+    mode: "0400"
+  with_items: "{{ cvmfs_certs }}"
+  loop_control:
+    label: "{{ item.path }}"
+
+- name: Create the API key filesystem
+  ansible.builtin.template:
+    src: api-key.gw.j2
+    dest: "{{ item.key_dir | default('/var/tmp/keys') }}/{{ item.repository }}.gw"
+    owner: "{{ item.owner | default('root') }}"
+    group: root
+    mode: "0644"
+  loop: "{{ cvmfs_gateway_api }}"
+
+- name: Install CernVM-FS keys
+  ansible.builtin.copy:
+    content: "{{ item.key }}"
+    dest: "{{ item.path }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: root
+    mode: 0444
+  loop: "{{ cvmfs_keys }}"
+  loop_control:
+    label: "{{ item.path }}"
+
+#export S0_IP='<STRATUM0_IP>'
+#sudo cvmfs_server mkfs -w http://$S0_IP/cvmfs/repo.organization.tld \
+#                       -u gw,/srv/cvmfs/repo.organization.tld/data/txn,http://$S0_IP:4929/api/v1 \
+#                       -k /path/to/keys/dir -o $USER repo.organization.tld
+
+- name:  Create the repository available for writing publisher
+  ansible.builtin.command: >-
+    /usr/bin/cvmfs_server mkfs -w http://{{ item.gateway }}/cvmfs/{{ item.repository }} 
+      -u gw,/srv/cvmfs/{{ item.repository }},http://{{ item.gateway }}:{{ item.gateway_port | default('4929') }}/api/v1
+      -k {{ item.key_dir | default('/tmp/keys') }}
+      -o {{ item.owner | default('root') }} {{ item.repository }}
+  args:
+    creates: /etc/cvmfs/repositories.d/{{ item.repository }}
+  loop: "{{ cvmfs_repositories }}"

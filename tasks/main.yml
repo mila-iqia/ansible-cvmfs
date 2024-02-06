@@ -37,3 +37,7 @@
 - name: Include localproxy Tasks
   ansible.builtin.include_tasks: localproxy.yml
   when: "'cvmfslocalproxies' in group_names or cvmfs_role == 'localproxy'"
+
+- name: Include publisher Tasks
+  ansible.builtin.include_tasks: publisher.yml
+  when: "'cvmfspublishers' in group_names or cvmfs_role == 'publisher'"

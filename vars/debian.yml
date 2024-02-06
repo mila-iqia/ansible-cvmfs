@@ -25,3 +25,7 @@ cvmfs_packages:
     - cvmfs
   gateway:
     - cvmfs-gateway
+  publisher:
+    - cvmfs-server
+    - cvmfs
+
