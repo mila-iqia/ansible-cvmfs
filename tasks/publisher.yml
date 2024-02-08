@@ -14,7 +14,7 @@
 - name: Copy certificate key on publisher 
   ansible.builtin.copy:
     content: "{{ item.crt }}"
-    dest: /var/tmp/keys/mycert.crt
+    dest: /var/tmp/keys/"{{ item.repository }}".crt
     owner: "{{ item.owner | default('root') }}"
     group: root
     mode: "0400"
@@ -50,7 +50,7 @@
 - name:  Create the repository available for writing publisher
   ansible.builtin.command: >-
     /usr/bin/cvmfs_server mkfs -w http://{{ item.gateway }}/cvmfs/{{ item.repository }} 
-      -u gw,/srv/cvmfs/{{ item.repository }},http://{{ item.gateway }}:{{ item.gateway_port | default('4929') }}/api/v1
+      -u gw,/srv/cvmfs/{{ item.repository }}/data/txn,http://{{ item.gateway }}:{{ item.gateway_port | default('4929') }}/api/v1
       -k {{ item.key_dir | default('/tmp/keys') }}
       -o {{ item.owner | default('root') }} {{ item.repository }}
   args:
