@@ -28,4 +28,3 @@ cvmfs_packages:
   publisher:
     - cvmfs-server
     - cvmfs
-
