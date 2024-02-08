@@ -114,3 +114,13 @@
     special_time: "{{ item.prune_snapshots_time.special_time | default(omit) }}"
   loop: "{{ cvmfs_repositories }}"
   when: item.prune_snapshots_time is defined
+
+- name: Install CernVM-FS Gateway packages and dependencies (apt)
+  ansible.builtin.apt:
+    name: " cvmfs_packages_gateway "
+    state: "{{ 'latest' if _cvmfs_upgrade else 'present' }}"
+  when: gateway_service is defined
+
+- name: Include Gateway tasks
+  ansible.builtin.include_tasks: gateway.yml
+  when: gateway_service is defined

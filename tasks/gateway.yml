@@ -1,11 +1,5 @@
 ---
-- name: Include initial OS-specific tasks
-  ansible.builtin.include_tasks: init_{{ ansible_os_family | lower }}.yml
-  vars:
-    _cvmfs_role: gateway
-    _cvmfs_upgrade: "{{ cvmfs_upgrade_server }}"
-
-- name: Create gateway API keys for repository publishing access (stratum 0)
+- name: Create gateway repos for repository publishing access (stratum 0)
   template:
     src: repos.json.j2
     dest: "/etc/cvmfs/gateway/repo.json"
@@ -13,47 +7,6 @@
     owner: root
     group: root
     mode: '644'
-  vars:
-    cvmfs_repo_name: "{{ item.key }}"
-    cvmfs_gateway_key: "{{ lookup('password', '/dev/null chars=ascii_letters,digits') }}" 
-  with_dict: "{{ cvmfs_repo_list }}"
-  loop_control:
-    label: "{{ item.key }}"
-  when: item.value.gateway|default(false)
-  notify: "restart cvmfs-gateway"
-
-- name: Set properties of gateway API keys (stratum 0)
-  file:
-    path: "/etc/cvmfs/keys/{{ item.key }}.gw"
-    owner: root
-    group: root
-    mode: '400'
-    state: "{{ 'file' if (item.value.gateway|default(false)) else 'absent' }}"
-  with_dict: "{{ cvmfs_repo_list }}"
-  loop_control:
-    label: "{{ item.key }}"
-  notify: "restart cvmfs-gateway"
-
-# The public repo keys (.crt, .pub) and shared secret API key (.gw) are needed
-# on the publisher node, so for each repo put them all in a tar file for convenience.
-- name: Bundle up gateway API keys in /tmp/ for manual transportation (stratum 0)
-  archive:
-    dest: "/tmp/keys-{{ item.key }}.tar"
-    format: "tar"
-    owner: root
-    group: root
-    mode: '400'
-    path:
-      - "/etc/cvmfs/keys/{{ item.key }}.gw"
-      - "/etc/cvmfs/keys/{{ item.key }}.crt"
-      - "/etc/cvmfs/keys/{{ item.key }}.pub"
-    remove: no
-  with_dict: "{{ cvmfs_repo_list }}"
-  loop_control:
-    label: "{{ item.key }}"
-  when: item.value.gateway|default(false)
-
-# TODO what about the user.json and repo.json files? Configure by hand or ...?
 
 - name: Enable gateway service (stratum 0)
   service:
