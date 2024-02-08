@@ -8,6 +8,8 @@ cvmfs_repositories: []
 cvmfs_http_proxies:
   - DIRECT
 
+cvmfs_gateway_service: false
+
 cvmfs_manage_firewall: false
 
 cvmfs_stratum0_http_ports:

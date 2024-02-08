@@ -119,8 +119,8 @@
   ansible.builtin.apt:
     name: " cvmfs_packages_gateway "
     state: "{{ 'latest' if _cvmfs_upgrade else 'present' }}"
-  when: gateway_service is defined
+  when: cvmfs_gateway_service is defined
 
 - name: Include Gateway tasks
   ansible.builtin.include_tasks: gateway.yml
-  when: gateway_service is defined
+  when: cvmfs_gateway_service is defined
