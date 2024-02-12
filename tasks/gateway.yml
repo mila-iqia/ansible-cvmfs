@@ -3,7 +3,7 @@
   ansible.builtin.template:
     src: gateway/repo.json.j2
     dest: "/etc/cvmfs/gateway/repo.json"
-    force: no
+    force: yes
     owner: root
     group: root
     mode: '644'
