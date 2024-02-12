@@ -1,0 +1,15 @@
+---
+- name: Create gateway repos for repository publishing access (stratum 0)
+  ansible.builtin.template:
+    src: gateway/repo.json.j2
+    dest: "/etc/cvmfs/gateway/repo.json"
+    force: yes
+    owner: root
+    group: root
+    mode: '644'
+
+- name: Enable gateway service (stratum 0)
+  ansible.builtin.service:
+    name: cvmfs-gateway
+    enabled: yes
+    state: started

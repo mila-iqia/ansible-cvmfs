@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "repos": [
+    {% for repo in repos %}
+    {
+      "domain": "{{ repo['domain'] }}",
+      "keys": [
+        {% for key in repo['keys'] %}
+        {
+          "id": "{{ key['id'] }}",
+          "path": "{{ key['path'] }}"
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+      ]
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ],
+  {% for key in global_keys %}
+  "keys": [
+    {
+      "type": "{{ key.type }}",
+      {% if key.type == 'file' %}
+      "file_name": "{{ key.file_name }}"
+      {% elif key.type == 'plain_text' %}
+      "id": "{{ key.id }}",
+      "secret": "{{ key.secret }}"
+      {% endif %}
+    }{% if not loop.last %},{% endif %}
+  {% endfor %}
+  ]
+}
