@@ -1,14 +1,14 @@
 ---
 galaxy_info:
   role_name: cvmfs
-  namespace: galaxyproject
-  author: Nathan Coraor
-  description: Install and configure CernVM-FS (CVMFS)
-  company: Galaxy Project
+  namespace: mila
+  author: The Mila infrastructure team
+  description: Soft fork of galaxyproject.cvmfs - Install and configure CernVM-FS (CVMFS)
+  company: Mila
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
-  issue_tracker_url: https://github.com/galaxyproject/ansible-cvmfs/issues
+  issue_tracker_url: https://github.com/mila-iqia/ansible-cvmfs/issues
 
   # Some suggested licenses:
   # - BSD (default)
