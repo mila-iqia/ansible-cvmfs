@@ -1,10 +1,21 @@
 ---
+
+- name: Ensure distribution is LTS or cvmfs_apt_distribution is set
+  assert:
+    that: >-
+      (ansible_distribution == 'Ubuntu' and 'LTS' in (ansible_lsb.distribution | default(''))) or
+      (ansible_distribution == 'Debian' and ansible_distribution_version != 'n/a') or
+      (cvmfs_apt_distribution is defined)
+    fail_msg: "Unsupported distribution: {{ ansible_distribution }} {{ ansible_distribution_release }}, please set cvmfs_apt_distribution"
+    success_msg: "Distribution OK"
+
 - name: Install apt dependencies
   ansible.builtin.apt:
     name:
       - apt-transport-https
       - ca-certificates
 
+<<<<<<< HEAD
 - name: Make sure /etc/apt/keyrings is present
   ansible.builtin.file:
     path: /etc/apt/keyrings
