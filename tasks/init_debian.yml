@@ -15,7 +15,6 @@
       - apt-transport-https
       - ca-certificates
 
-<<<<<<< HEAD
 - name: Make sure /etc/apt/keyrings is present
   ansible.builtin.file:
     path: /etc/apt/keyrings
